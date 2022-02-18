@@ -1,0 +1,11 @@
+*.rdata
+.Rhistory
+.Renviron
+.DS_Store
+rsconnect/
+.Rproj.user/
+.idea/
+packrat/lib*/
+packages/
+packrat/src/
+renv/

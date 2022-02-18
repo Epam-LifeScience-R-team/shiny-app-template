@@ -1,0 +1,6 @@
+default:
+    url: https://default-url.com
+tst:
+    url: https://tst-url.com
+prd:
+    url: https://prd-url.com
