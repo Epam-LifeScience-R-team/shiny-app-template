@@ -17,6 +17,20 @@
 
 ## Getting Started
 
+### For Windows users
+
+Make sure that you use Git Bash tool as default Terminal interpreter. If it is not, specify the path to Git Bash in your IDE, for example `C:\Program Files\Git\bin\bash.exe` 
+
+Set PATH environment variables for R.exe and RScript.exe
+* Go to Control Panel
+* Search "Edit environment variables" for your account
+* Under User variables select Path
+* Click Edit
+* Select New
+* Paste the path to the _folder that contains_ the `R.exe` and `RScript.exe` files, for example `C:\Program Files\R\R-4.1.3\bin`
+* Click OK
+* You will need to close and re-open your command-line for the PATH changes to take effect
+
 ### Restore packages
 
 ```{r}
