@@ -3,6 +3,7 @@ FROM rocker/r-base:4.1.3
 ENV REPOS "https://cran.rstudio.com" 
 
 USER root
+RUN yum install -y git
 RUN chmod -R 777 /usr/lib/R/library
 
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
