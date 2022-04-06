@@ -8,20 +8,21 @@ RUN chmod -R 777 /usr/lib/R/library
 
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 
-COPY renv.lock /home/docker/renv.lock
-COPY modules /home/docker/modules
-COPY utils /home/docker/utils
-COPY www /home/docker/www
-COPY dev /home/docker/dev
-COPY tests /home/docker/tests
-COPY config /home/docker/config
-COPY .Rprofile /home/docker/.Rprofile
-COPY global.R /home/docker/global.R
-COPY server.R /home/docker/server.R
-COPY ui.R /home/docker/ui.R
-COPY DESCRIPTION /home/docker/DESCRIPTION
+WORKDIR /home/docker/
 
-RUN R --vanilla -e "getwd()"
+COPY renv.lock renv.lock
+COPY modules modules
+COPY utils utils
+COPY www www
+COPY dev dev
+COPY tests tests
+COPY config config
+COPY .Rprofile .Rprofile
+COPY global.R global.R
+COPY server.R server.R
+COPY ui.R ui.R
+COPY DESCRIPTION DESCRIPTION
+
 RUN R --vanilla -e "options(renv.consent = TRUE)"
 RUN R --vanilla -e "renv::restore()"
 
