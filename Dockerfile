@@ -21,7 +21,7 @@ COPY server.R /home/docker/server.R
 COPY ui.R /home/docker/ui.R
 COPY DESCRIPTION /home/docker/DESCRIPTION
 
-RUN R --vanilla -e "renv::consent(provided = TRUE)"
+RUN R --vanilla -e "options(renv.consent = TRUE)"
 RUN R --vanilla -e "renv::restore()"
 
 USER docker:docker
