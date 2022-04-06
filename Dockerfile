@@ -7,7 +7,6 @@ RUN chmod -R 777 /usr/lib/R/library
 
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 
-COPY renv/ /home/docker/renv
 COPY renv.lock /home/docker/renv.lock
 COPY modules /home/docker/modules
 COPY utils /home/docker/utils
