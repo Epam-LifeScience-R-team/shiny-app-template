@@ -18,6 +18,8 @@ pipeline {
                 echo "GIT_USERNAME: ${env.GIT_USERNAME}"
                 echo "GIT_MESSAGE: ${env.GIT_MESSAGE}"
                 echo "GIT_HASH: ${env.GIT_HASH}"
+                sh 'pwd'
+                sh 'ls'
             }
         }
         stage('Testing and Deployment') {
