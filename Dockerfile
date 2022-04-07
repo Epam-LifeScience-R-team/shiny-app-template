@@ -5,7 +5,7 @@ ENV REPOS "https://cran.rstudio.com"
 USER root
 RUN apt-get update && apt-get install -y git
 
-USER docker
+USER docker:docker
 
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 
