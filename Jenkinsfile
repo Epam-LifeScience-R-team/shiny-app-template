@@ -21,7 +21,6 @@ pipeline {
         stage('Restore working environment') {
             steps {
                 sh '''
-                    su - docker
                     R --vanilla -e "Sys.info()[['user']]"
                     R --vanilla -e "renv::settings\\$use.cache(FALSE)"
                     R --vanilla -e "renv::restore()"
