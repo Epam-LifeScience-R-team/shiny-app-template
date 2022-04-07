@@ -6,13 +6,13 @@ USER root
 RUN apt-get update && apt-get install -y git
 
 RUN chmod -R 777 /usr/lib/R/library
-RUN chmod -R 777 /home/docker/
 
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 
 WORKDIR /home/docker/
 
-RUN mkdir renv
+COPY *.Rproj .
+COPY .Rprofile .Rprofile
 COPY renv.lock renv.lock
 COPY modules modules
 COPY utils utils
@@ -20,7 +20,6 @@ COPY www www
 COPY dev dev
 COPY tests tests
 COPY config config
-COPY .Rprofile .Rprofile
 COPY global.R global.R
 COPY server.R server.R
 COPY ui.R ui.R
