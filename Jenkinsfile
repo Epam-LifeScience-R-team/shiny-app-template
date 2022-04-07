@@ -21,6 +21,7 @@ pipeline {
         stage('Restore working environment') {
             steps {
                 sh '''
+                    R --vanilla -e "renv::settings\\$use.cache(FALSE)"
                     R --vanilla -e "renv::restore()"
                 '''
             }
