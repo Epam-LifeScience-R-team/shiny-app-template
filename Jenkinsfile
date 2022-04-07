@@ -10,16 +10,21 @@ pipeline {
         timeout(time: 2, unit: 'HOURS')
     }
     stages {
-        stage ('Checkout') {
-            steps  {
+        stage('Checkout') {
+            steps {
                 echo 'Checking out repo...'
                 checkout scm
                 export_git_info()
                 echo "GIT_USERNAME: ${env.GIT_USERNAME}"
                 echo "GIT_MESSAGE: ${env.GIT_MESSAGE}"
                 echo "GIT_HASH: ${env.GIT_HASH}"
-                sh 'pwd'
-                sh 'ls'
+            }
+        }
+        stage ('Restore environment') {
+            steps {
+                sh '''
+                    R --vanilla -e "renv::restore()"
+                '''
             }
         }
         stage('Testing and Deployment') {
@@ -33,7 +38,7 @@ pipeline {
                                     Rscript dev/run-lintr.R
                                 '''
                             }
-                            catch (Exception e) {
+                            catch(Exception e) {
                                 echo "Syntax checking failed!"
                                 currentBuild.result = 'UNSTABLE'
                             }
