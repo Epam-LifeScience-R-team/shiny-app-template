@@ -4,12 +4,14 @@ ENV REPOS "https://cran.rstudio.com"
 
 USER root
 RUN apt-get update && apt-get install -y git
+
 RUN chmod -R 777 /usr/lib/R/library
 
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 
 WORKDIR /home/docker/
 
+RUN mkdir renv
 COPY renv.lock renv.lock
 COPY modules modules
 COPY utils utils
