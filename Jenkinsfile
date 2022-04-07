@@ -21,8 +21,7 @@ pipeline {
         stage('Restore working environment') {
             steps {
                 sh '''
-                    R --vanilla -e "Sys.info()[['user']]"
-                    R --vanilla -e "renv::settings\\$use.cache(FALSE)"
+                    R --vanilla -e "options(renv.consent = TRUE)"
                     R --vanilla -e "renv::restore()"
                 '''
             }
