@@ -8,7 +8,5 @@ RUN mkdir /.cache
 RUN chmod -R 777 /.cache
 RUN chmod -R 777 /usr/local/lib/R/site-library
 
-
-
 USER docker
 RUN R -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
