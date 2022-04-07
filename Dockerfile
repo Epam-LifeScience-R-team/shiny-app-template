@@ -6,6 +6,7 @@ USER root
 RUN apt-get update && apt-get install -y git
 
 RUN chmod -R 777 /usr/lib/R/library
+RUN chmod -R 777 /.cache/R/env
 
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 
