@@ -23,5 +23,3 @@ COPY global.R global.R
 COPY server.R server.R
 COPY ui.R ui.R
 COPY DESCRIPTION DESCRIPTION
-
-USER docker
