@@ -4,11 +4,9 @@ ENV REPOS "https://cran.rstudio.com"
 
 USER root
 RUN apt-get update && apt-get install -y git
-
-USER docker
-
-RUN R --vanilla -e "getwd()"
+RUN chmod -R 777 /opt/R/3.6.2/lib/R/library
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
+RUN chmod -R 777 /root/.cache/R/env
 
 COPY .Rprofile .Rprofile
 COPY renv.lock renv.lock
@@ -22,3 +20,5 @@ COPY global.R global.R
 COPY server.R server.R
 COPY ui.R ui.R
 COPY DESCRIPTION DESCRIPTION
+
+USER docker:docker
