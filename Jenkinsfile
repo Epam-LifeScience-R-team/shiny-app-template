@@ -21,7 +21,7 @@ pipeline {
         stage('Restore working environment') {
             steps {
                 sh '''
-                    cd /home/docker
+                    su - docker
                     R --vanilla -e "Sys.info()[['user']]"
                     R --vanilla -e "renv::settings\\$use.cache(FALSE)"
                     R --vanilla -e "renv::restore()"
@@ -36,7 +36,6 @@ pipeline {
                             try {
                                 echo "Testing Syntax..."
                                 sh '''
-                                    cd /home/docker
                                     Rscript dev/run-lintr.R
                                 '''
                             }
@@ -51,7 +50,6 @@ pipeline {
                     steps {
                         echo "Running Tests"
                         sh '''
-                            cd /home/docker
                             R --vanilla -e "shiny::runTests()"
                         '''
                     }
