@@ -21,7 +21,6 @@ pipeline {
         stage('Restore working environment') {
             steps {
                 sh '''
-                    R --vanilla -e "options(renv.consent = TRUE)"
                     R --vanilla -e "renv::restore()"
                 '''
             }
