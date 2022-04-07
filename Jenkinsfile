@@ -22,6 +22,7 @@ pipeline {
             steps {
                 sh '''
                     cd /home/docker
+                    R --vanilla -e "renv::activate()"
                     R --vanilla -e "renv::settings\\$use.cache(FALSE)"
                     R --vanilla -e "renv::restore()"
                 '''
