@@ -5,11 +5,11 @@ ENV REPOS "https://cran.rstudio.com"
 USER root
 RUN apt-get update && apt-get install -y git
 RUN chmod -R 777 /usr/local/lib/R/site-library
-RUN chmod -R 777 /home/docker
 
 
 USER docker
 RUN R -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
+RUN R -e "renv::restore()"
 
 COPY .Rprofile .Rprofile
 COPY renv.lock renv.lock
