@@ -5,9 +5,10 @@ ENV REPOS "https://cran.rstudio.com"
 USER root
 RUN apt-get update && apt-get install -y git
 
-USER docker:docker
+USER docker
 RUN whoami
-RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
+RUN R --vanilla -e "system('whoami')"
+# RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 
 COPY .Rprofile .Rprofile
 COPY renv.lock renv.lock
