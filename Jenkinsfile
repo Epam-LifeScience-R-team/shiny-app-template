@@ -22,6 +22,7 @@ pipeline {
             steps {
                 sh '''
                     cd /home/docker
+                    R --vanilla -e "getwd()"
                     R --vanilla -e "renv::restore()"
                 '''
             }
