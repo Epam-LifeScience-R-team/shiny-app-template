@@ -1,6 +1,8 @@
 pipeline {
     agent {
-        dockerfile true
+        dockerfile {
+            additionalBuildArgs '--no-cache'
+        }
     }
     options {
         // disableConcurrentBuilds()
