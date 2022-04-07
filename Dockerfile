@@ -6,6 +6,7 @@ USER root
 RUN apt-get update && apt-get install -y git
 
 USER docker:docker
+RUN echo whoami
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 
 COPY .Rprofile .Rprofile
