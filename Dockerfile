@@ -10,6 +10,8 @@ RUN chmod -R 777 /usr/local/lib/R/site-library
 USER docker
 RUN R -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 RUN R -e "renv::restore()"
+RUN which R
+RUN R -e "shiny::runTests()"
 
 COPY .Rprofile .Rprofile
 COPY renv.lock renv.lock
