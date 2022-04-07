@@ -23,7 +23,4 @@ COPY server.R server.R
 COPY ui.R ui.R
 COPY DESCRIPTION DESCRIPTION
 
-RUN R --vanilla -e "options(renv.consent = TRUE)"
-RUN R --vanilla -e "renv::restore()"
-
 USER docker:docker
