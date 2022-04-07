@@ -18,15 +18,6 @@ pipeline {
                 echo "GIT_HASH: ${env.GIT_HASH}"
             }
         }
-        stage('Restore working environment') {
-            steps {
-                sh '''
-                    cd /home/docker
-                    R --vanilla -e "renv::settings\\$use.cache(FALSE)"
-                    R --vanilla -e "renv::restore()"
-                '''
-            }
-        }
         stage('Testing and Deployment') {
             stages {
                 stage('Syntax Check') {
