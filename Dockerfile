@@ -1,4 +1,4 @@
-FROM r-hub/r-minimal:4.1.3
+FROM rhub/r-minimal:4.1.3
 
 ENV REPOS "https://cran.rstudio.com"
 
