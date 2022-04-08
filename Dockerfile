@@ -5,7 +5,7 @@ ENV USER=docker
 
 USER root
 
-RUN chmod -R 777 /usr/local/lib/R/library
+RUN chmod -R 777 /usr/local/lib/R
 
 RUN adduser $USER --disabled-password
 
