@@ -14,10 +14,6 @@ pipeline {
             steps {
                 echo 'Checking out repo...'
                 checkout scm
-                export_git_info()
-                echo "GIT_USERNAME: ${env.GIT_USERNAME}"
-                echo "GIT_MESSAGE: ${env.GIT_MESSAGE}"
-                echo "GIT_HASH: ${env.GIT_HASH}"
             }
         }
         stage ('Restore environment') {
@@ -87,10 +83,4 @@ pipeline {
             echo 'CHANGED'
         }
     }
-}
-
-def export_git_info() {
-    env.GIT_USERNAME = sh(returnStdout: true, script: 'git show -s --pretty=format:%an')
-    env.GIT_MESSAGE = sh(returnStdout: true, script: 'git show -s --pretty=format:%s')
-    env.GIT_HASH = sh(returnStdout: true, script: 'git log -1 --pretty=format:%H')
 }
