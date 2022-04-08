@@ -19,8 +19,6 @@ pipeline {
         stage ('Restore environment') {
             steps {
                 sh '''
-                    pwd
-                    whoami
                     R --vanilla -e "renv::restore()"
                 '''
             }
