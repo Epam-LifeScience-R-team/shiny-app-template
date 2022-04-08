@@ -71,6 +71,9 @@ pipeline {
         always {
             cleanWs()
             deleteDir()
+            sh '''
+                docker system prune --force
+            '''
         }
         success {
             echo 'SUCCESS'
