@@ -5,7 +5,10 @@ ENV USER=docker
 
 USER root
 
+RUN mkdir /.cache
+RUN chmod -R 777 /.cache
 RUN chmod -R 777 /usr/local/lib/R
+
 
 RUN adduser $USER --disabled-password
 
