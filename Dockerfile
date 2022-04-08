@@ -6,4 +6,4 @@ RUN adduser docker --disabled-password
 
 USER docker
 
-RUN R -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
+RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
