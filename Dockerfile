@@ -11,6 +11,6 @@ RUN adduser $USER --disabled-password
 
 WORKDIR /home/$USER
 
-USER docker
+USER $USER
 
 RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
