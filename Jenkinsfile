@@ -70,7 +70,9 @@ pipeline {
             cleanWs()
             deleteDir()
             sh '''
-                docker system prune --force
+                docker stop $(docker ps -a -q)
+                docker rm $(docker ps -a -q)
+                docker rmi $(docker images -q)
             '''
         }
         success {
