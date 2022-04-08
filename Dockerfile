@@ -4,7 +4,7 @@ ENV REPOS "https://cran.rstudio.com"
 
 RUN adduser docker --disabled-password
 
-RUN chmod -R 777 /usr/local/lib/R/site-library
+RUN chmod -R 777 /usr/local/lib/R/library
 
 USER docker
 RUN R -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
