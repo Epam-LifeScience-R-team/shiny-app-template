@@ -39,7 +39,6 @@ pipeline {
                 stage('Testing') {
                     steps {
                         echo "Running Tests"
-                        which R
                         sh '''
                             R -e "shiny::runTests()"
                         '''
