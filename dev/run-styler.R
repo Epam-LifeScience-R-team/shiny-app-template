@@ -1,4 +1,5 @@
-
+#' Performs various substitutions in files in a directory (by default only .R files are styled - see filetype argument)
+#' Carefully examine the results after running this function!
 changedFiles <- styler::style_dir(
     ".",
     indent_by = 4,
