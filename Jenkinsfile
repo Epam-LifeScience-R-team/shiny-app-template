@@ -19,7 +19,7 @@ pipeline {
         stage ('Restore environment') {
             steps {
                 sh '''
-                    R -e "renv::activate()"
+                    R --vanilla -e "renv::activate()"
                     R -e "renv::restore()"
                 '''
             }
