@@ -32,4 +32,4 @@ WORKDIR /home/$USER
 
 USER $USER
 
-RUN R --vanilla -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
+RUN R -e "install.packages('renv', repos=Sys.getenv('REPOS'))"

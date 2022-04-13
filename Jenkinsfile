@@ -1,6 +1,8 @@
 pipeline {
     agent {
-        dockerfile true
+        dockerfile {
+            additionalBuildArgs '--no-cache'
+        }
     }
     options {
         // disableConcurrentBuilds()
@@ -17,7 +19,8 @@ pipeline {
         stage ('Restore environment') {
             steps {
                 sh '''
-                    R --vanilla -e "renv::restore()"
+                    R -e "renv::activate()"
+                    R -e "renv::restore()"
                 '''
             }
         }
@@ -25,17 +28,11 @@ pipeline {
             stages {
                 stage('Syntax Check') {
                     steps {
-                        script {
-                            try {
-                                echo "Testing Syntax..."
-                                sh '''
-                                    Rscript dev/run-lintr.R
-                                '''
-                            }
-                            catch(Exception e) {
-                                echo "Syntax checking failed!"
-                                currentBuild.result = 'UNSTABLE'
-                            }
+                        echo "Testing Syntax..."
+                        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                            sh '''
+                                Rscript dev/run-lintr.R
+                            '''
                         }
                     }
                 }
@@ -44,7 +41,7 @@ pipeline {
                         echo "Running Tests"
                         which R
                         sh '''
-                            R --vanilla -e "shiny::runTests()"
+                            R -e "shiny::runTests()"
                         '''
                     }
                 }
@@ -67,11 +64,6 @@ pipeline {
         always {
             cleanWs()
             deleteDir()
-            sh '''
-                docker stop $(docker ps -a -q)
-                docker rm $(docker ps -a -q)
-                docker rmi $(docker images -q)
-            '''
         }
         success {
             echo 'SUCCESS'
