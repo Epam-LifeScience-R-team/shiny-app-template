@@ -20,7 +20,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build Docker image') {
+        stage('Create Docker image') {
             when {
                 anyOf {
                     expression {
@@ -36,11 +36,17 @@ pipeline {
                     }
                 }
             }
-            sh '''
-                cp Dockerfile Dockerfile
-                docker build --no-cache --pull -t $IMAGE_NAME .
-                docker tag $IMAGE_NAME $IMAGE_NAME:$IMAGE_TAG
-            '''
+        }
+        stages {
+            stage('Build Docker image') {
+                steps {
+                    sh '''
+                        cp Dockerfile Dockerfile
+                        docker build --no-cache --pull -t $IMAGE_NAME .
+                        docker tag $IMAGE_NAME $IMAGE_NAME:$IMAGE_TAG
+                    '''
+                }
+            }
         }
         stages {
             agent {
