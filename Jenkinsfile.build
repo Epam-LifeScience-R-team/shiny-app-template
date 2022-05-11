@@ -1,5 +1,7 @@
 pipeline {
-    agent { dockerfile true }
+    agent {
+        dockerfile { true }
+    }
     options {
         // disableConcurrentBuilds()
         timestamps()
@@ -11,10 +13,8 @@ pipeline {
     }
     stages {
         stage('Checkout') {
-            steps {
-                echo 'Checking out repo...'
-                checkout scm
-            }
+            echo 'Checking out repo...'
+            checkout scm
         }
         stage('Create Docker image') {
             when {
@@ -42,7 +42,9 @@ pipeline {
         }
         stage('Testing and deployment') {
             agent {
-                docker { $IMAGE_NAME:$IMAGE_TAG }
+                docker {
+                    $IMAGE_NAME:$IMAGE_TAG
+                }
             }
             stages {
                 stage('Restore environment') {
