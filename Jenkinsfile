@@ -10,8 +10,8 @@ pipeline {
         timeout(time: 2, unit: 'HOURS')
     }
     environment {
-        IMAGE_TAG = LATEST
-        IMAGE_NAME = SHINY_TEMPLATE
+        IMAGE_TAG = 'LATEST'
+        IMAGE_NAME = 'SHINY_TEMPLATE'
     }
     stages {
         stage('Checkout') {
