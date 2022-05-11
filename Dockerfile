@@ -32,4 +32,7 @@ WORKDIR /home/$USER
 
 USER $USER
 
+COPY renv.lock renv.lock
 RUN R -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
+RUN R --vanilla -e "renv::activate()"
+RUN R -e "renv::restore()"
