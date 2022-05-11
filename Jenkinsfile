@@ -42,7 +42,7 @@ pipeline {
         }
         stage('Testing and deployment') {
             agent {
-                docker { $IMAGE_NAME:$IMAGE_TAG }
+                docker { image $IMAGE_NAME:$IMAGE_TAG }
             }
             stages {
                 stage('Restore environment') {
