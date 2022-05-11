@@ -9,11 +9,11 @@ pipeline {
         timestamps()
         timeout(time: 2, unit: 'HOURS')
     }
+    environment {
+        IMAGE_TAG = LATEST
+        IMAGE_NAME = SHINY_TEMPLATE
+    }
     stages {
-        environment {
-            IMAGE_TAG = LATEST
-            IMAGE_NAME = SHINY_TEMPLATE
-        }
         stage('Checkout') {
             steps {
                 echo 'Checking out repo...'
