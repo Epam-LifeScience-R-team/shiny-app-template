@@ -1,8 +1,6 @@
 pipeline {
     agent {
-        dockerfile {
-            additionalBuildArgs '--no-cache'
-        }
+        dockerfile { true }
     }
     options {
         // disableConcurrentBuilds()
@@ -36,61 +34,47 @@ pipeline {
                     }
                 }
             }
-            stage('Build Docker image') {
-                steps {
-                    sh '''
-                        cp Dockerfile Dockerfile
-                        docker build --no-cache --pull -t $IMAGE_NAME .
-                        docker tag $IMAGE_NAME $IMAGE_NAME:$IMAGE_TAG
-                    '''
-                }
+            steps {
+                sh '''
+                    cp Dockerfile Dockerfile
+                    docker build --no-cache --pull -t $IMAGE_NAME .
+                    docker tag $IMAGE_NAME $IMAGE_NAME:$IMAGE_TAG
+                '''
             }
         }
-        stages {
+        stage('Testing and deployment') {
             agent {
                 docker {
                     $IMAGE_NAME:$IMAGE_TAG
                 }
             }
-            stage ('Restore environment') {
-                steps {
-                    sh '''
-                        R --vanilla -e "renv::activate()"
-                        R -e "renv::restore()"
-                    '''
+            stages {
+                stage('Restore environment') {
+                    steps {
+                        sh '''
+                            R --vanilla -e "renv::activate()"
+                            R -e "renv::restore()"
+                        '''
+                    }
                 }
-            }
-            stage('Testing and Deployment') {
-                stages {
-                    stage('Syntax Check') {
-                        steps {
-                            echo "Testing Syntax..."
-                            catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                                sh '''
-                                    Rscript dev/run-lintr.R
-                                '''
-                            }
-                        }
+                stage('Testing') {
+                    steps {
+                        echo "Running Tests"
+                        sh '''
+                            R -e "shiny::runTests()"
+                        '''
                     }
-                    stage('Testing') {
-                        steps {
-                            echo "Running Tests"
-                            sh '''
-                                R -e "shiny::runTests()"
-                            '''
-                        }
+                }
+                stage('Deployment') {
+                    when {
+                        anyOf { branch 'develop'; branch 'master'; }
                     }
-                    stage('Deployment') {
-                        when {
-                            anyOf { branch 'develop'; branch 'master'; }
-                        }
-                        environment {
-                            DEPLOYMENT_ENV = sh(returnStdout: true, script: 'if [[ $ENV == "master" ]]; then echo "prd"; else  echo "dev"; fi')
-                        }
-                        steps {
-                            echo "DEPLOYMENT ENVIRONMENT: ${DEPLOYMENT_ENV}"
-                            echo "BRANCH_NAME: ${env.BRANCH_NAME}"
-                        }
+                    environment {
+                        DEPLOYMENT_ENV = sh(returnStdout: true, script: 'if [[ $ENV == "master" ]]; then echo "prd"; else  echo "dev"; fi')
+                    }
+                    steps {
+                        echo "DEPLOYMENT ENVIRONMENT: ${DEPLOYMENT_ENV}"
+                        echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                     }
                 }
             }
