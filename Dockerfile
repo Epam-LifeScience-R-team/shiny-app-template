@@ -35,8 +35,4 @@ USER $USER
 COPY renv.lock renv.lock
 RUN R -e "install.packages('renv', repos=Sys.getenv('REPOS'))"
 RUN R --vanilla -e "renv::activate()"
-<<<<<<< Updated upstream
 RUN R -e "renv::restore()"
-=======
-RUN R -e "renv::restore()"
->>>>>>> Stashed changes
