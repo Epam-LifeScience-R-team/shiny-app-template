@@ -20,8 +20,12 @@ pipeline {
             when {
                 anyOf {
                     expression {
-                        image_id = sh (script: "docker images -q $IMAGE_NAME:$IMAGE_TAG", returnStdout: true).trim()
-                        return image_id.isEmpty()
+                        cmd = "bash -c '(docker inspect ${image_id} > /dev/null 2>&1 && echo found) || echo notfound'"
+                        found = sh([returnStdout: true, script: cmd]).trim()
+                        if (found == 'found') {
+                            return true
+                        }
+                        return false
                     }
                     allOf {
                         branch 'master'
@@ -35,8 +39,7 @@ pipeline {
             steps {
                 sh '''
                     cp Dockerfile Dockerfile
-                    docker build --no-cache --pull -t $IMAGE_NAME .
-                    docker tag $IMAGE_NAME $IMAGE_NAME:$IMAGE_TAG
+                    docker build --no-cache -t $IMAGE_NAME:$IMAGE_TAG .
                 '''
             }
         }
